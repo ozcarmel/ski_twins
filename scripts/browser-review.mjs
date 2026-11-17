@@ -84,7 +84,7 @@ try{
   });
  }
  await check('Destination search, filters, empty state and reset',async()=>{
-  await page.locator('[data-filter=italy]').click();assert.equal(await page.locator('.resort-card:visible').count(),1);
+  await page.locator('.destination-tools>summary').click();await page.locator('[data-filter=italy]').click();assert.equal(await page.locator('.resort-card:visible').count(),1);
   await page.locator('#resort-search').fill('no-such-resort');assert.equal(await page.locator('#empty-state').isVisible(),true);
   await page.locator('#reset-search').click();assert.equal(await page.locator('.resort-card:visible').count(),3);
   await page.locator('#resort-search').fill('mayrhofen');assert.equal(await page.locator('.resort-card:visible').count(),1);
