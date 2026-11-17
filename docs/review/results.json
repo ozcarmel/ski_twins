@@ -1,0 +1,537 @@
+{
+  "checks": [
+    {
+      "name": "Hebrew 360px layout",
+      "status": "passed"
+    },
+    {
+      "name": "English 360px layout",
+      "status": "passed"
+    },
+    {
+      "name": "Hebrew 390px layout",
+      "status": "passed"
+    },
+    {
+      "name": "English 390px layout",
+      "status": "passed"
+    },
+    {
+      "name": "Hebrew 768px layout",
+      "status": "passed"
+    },
+    {
+      "name": "English 768px layout",
+      "status": "passed"
+    },
+    {
+      "name": "Hebrew 1030px layout",
+      "status": "passed"
+    },
+    {
+      "name": "English 1030px layout",
+      "status": "passed"
+    },
+    {
+      "name": "Hebrew 1440px layout",
+      "status": "passed"
+    },
+    {
+      "name": "English 1440px layout",
+      "status": "passed"
+    },
+    {
+      "name": "Budget edits and language switching retain values",
+      "status": "passed"
+    },
+    {
+      "name": "Comparison invalid state, language switching and preset transfer",
+      "status": "passed"
+    },
+    {
+      "name": "Invalid budget and reset",
+      "status": "passed"
+    },
+    {
+      "name": "en budget download",
+      "status": "passed"
+    },
+    {
+      "name": "he budget download",
+      "status": "passed"
+    },
+    {
+      "name": "Destination search, filters, empty state and reset",
+      "status": "passed"
+    },
+    {
+      "name": "he guide stay and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide rent and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide diy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide park and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide review-policy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide privacy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide mayrhofen and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide livigno and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "he guide bansko and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide stay and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide rent and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide diy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide park and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide review-policy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide privacy and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide mayrhofen and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide livigno and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "en guide bansko and original source links",
+      "status": "passed"
+    },
+    {
+      "name": "Every referenced local image resolves",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile navigation opens, closes, and follows links",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile article and calculator remain within viewport",
+      "status": "passed"
+    },
+    {
+      "name": "No browser runtime or resource errors",
+      "status": "passed"
+    }
+  ],
+  "consoleErrors": [],
+  "screenshots": [
+    "home-he-360.jpg",
+    "home-he-390.jpg",
+    "home-he-390-full.jpg",
+    "home-en-390.jpg",
+    "home-he-768.jpg",
+    "home-he-1030.jpg",
+    "home-he-1440.jpg",
+    "home-he-1440-full.jpg",
+    "home-en-1440.jpg",
+    "calculator-preset.jpg",
+    "guide-bansko-he.jpg",
+    "guide-bansko-en.jpg",
+    "guide-mobile.jpg",
+    "calculator-mobile.jpg"
+  ],
+  "viewports": [
+    {
+      "width": 360,
+      "scrollWidth": 360,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו"
+        },
+        {
+          "tag": "CAPTION",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": "‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320‏⁧סקי פס⁩€700€1,000€1,400‏⁧השכרת ציוד⁩€"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧סקי פס⁩€700€1,000€1,400"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,400"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,400"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "scrollWidth": 360,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "Cost breakdown for your familyYour estimated tripBanskoLivig"
+        },
+        {
+          "tag": "CAPTION",
+          "class": "",
+          "text": "Cost breakdown for your family"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "Your estimated tripBanskoLivignoMayrhofen"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Your estimated tripBanskoLivignoMayrhofen"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": "Mayrhofen"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "Accommodation€720€960€1,320Lift pass€700€1,000€1,400Equipmen"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Accommodation€720€960€1,320"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Lift pass€700€1,000€1,400"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,400"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,400"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו"
+        },
+        {
+          "tag": "CAPTION",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": "‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320‏⁧סקי פס⁩€700€1,000€1,400‏⁧השכרת ציוד⁩€"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧סקי פס⁩€700€1,000€1,400"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,400"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,400"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "Cost breakdown for your familyYour estimated tripBanskoLivig"
+        },
+        {
+          "tag": "CAPTION",
+          "class": "",
+          "text": "Cost breakdown for your family"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "Your estimated tripBanskoLivignoMayrhofen"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Your estimated tripBanskoLivignoMayrhofen"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": "Mayrhofen"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "Accommodation€720€960€1,320Lift pass€700€1,000€1,400Equipmen"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Accommodation€720€960€1,320"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Lift pass€700€1,000€1,400"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,400"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,400"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": []
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": []
+    },
+    {
+      "width": 1030,
+      "scrollWidth": 1030,
+      "overflow": []
+    },
+    {
+      "width": 1030,
+      "scrollWidth": 1030,
+      "overflow": []
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overflow": []
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overflow": []
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו"
+        },
+        {
+          "tag": "CAPTION",
+          "class": "",
+          "text": "‏⁧פירוט העלויות למשפחה⁩"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧עלות חופשה משוערת⁩‏⁧בנסקו⁩‏⁧ליביניו⁩‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": "‏⁧מיירהופן⁩"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320‏⁧סקי פס⁩€700€1,000€1,400‏⁧השכרת ציוד⁩€"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧לינה⁩€720€960€1,320"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,320"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "‏⁧סקי פס⁩€700€1,000€1,400"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "€1,400"
+        },
+        {
+          "tag": "BDI",
+          "class": "",
+          "text": "€1,400"
+        }
+      ]
+    }
+  ],
+  "passed": 38,
+  "failed": 0
+}

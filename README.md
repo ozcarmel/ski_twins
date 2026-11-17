@@ -34,11 +34,11 @@ npm ci
 npm run dev
 ```
 
-`npm test` runs the budget regression checks. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
+`npm test` runs the eight budget regression checks. `npm run test:browser` runs the bilingual Chromium review after `npx playwright install chromium`. Pull requests run these checks in GitHub Actions and attach screenshots plus `results.json` as a review artifact. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
 
 ## Redesign review
 
-The selected direction is **2 — The Family Winter Edit**: warm cream, plum typography, coral actions, family photography and editorial destination cards. The redesign stays on a review branch until visual QA and publication approval. See `design-qa.md` for the current verification status.
+The selected direction is **2 — The Family Winter Edit**: warm cream, plum typography, coral actions, family photography and editorial destination cards. The redesign has passed Chromium browser and visual review and stays on a review branch pending publication approval. See `design-qa.md` for evidence and review screenshots.
 
 Comparison amounts are explicitly illustrative scenarios, not current resort prices or booking offers. The default comparison uses four people, six nights and five ski days. Each scenario can be opened in the existing calculator. Georgia is marked as coming soon because the original site has no Georgia guide.
 
