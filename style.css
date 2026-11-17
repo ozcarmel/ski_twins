@@ -31,3 +31,5 @@ html[dir=rtl] .brand{flex-direction:row-reverse}
 @media(min-width:801px){.hero{height:auto;min-height:545px}}
 @media(min-width:801px) and (max-width:1200px){.hero{min-height:450px}html[lang=en] .hero h1{font-size:56px}html[lang=en] .hero-tagline{font-size:28px}html[lang=en] .hero-intro{font-size:17px}html[lang=en] .hero-actions{gap:12px}html[lang=en] .hero-actions .button{font-size:14px}html[lang=en] .hero-actions .text-link{font-size:13px}}
 @media(max-width:480px){.hero-picture{clip-path:polygon(0 0,100% 0,100% 84%,0 100%)!important}.hero-content{margin-top:-14px;padding-bottom:10px}.hero-actions .button{min-height:48px;padding-block:10px}.hero-actions .text-link{min-height:32px}}
+
+@media(min-width:801px){html[lang=en] .hero h1{max-width:33vw}}
