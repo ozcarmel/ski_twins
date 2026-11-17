@@ -39,6 +39,7 @@ try{
  const overflow=async(page)=>{
   const metrics=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('main *,header *,footer *')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&getComputedStyle(e).position!=='fixed'&&(b.right>innerWidth+1||b.left< -1);}).slice(0,12).map(e=>({tag:e.tagName,class:e.className,text:e.textContent.slice(0,60)}))}));
   report.viewports.push(metrics);assert.ok(metrics.scrollWidth<=metrics.width+1,JSON.stringify(metrics));
+  const hero=await page.locator('.hero').boundingBox(), content=await page.locator('.hero-content').boundingBox();assert.ok(content.y+content.height<=hero.y+hero.height+1,'Hero content exceeds its section');
  };
  for(const [width,height] of [[360,1005],[390,844],[768,1024],[1030,1005],[1440,1000]]){
   const page=await pageFor(width,height);
