@@ -56,3 +56,13 @@ Photo credits appear in the site's Privacy & photography guide. Third-party phot
 
 The new family hero is AI-generated editorial imagery and is not presented as a photograph of the twins or a specific resort. All original photographs remain in the repository. The twin-peaks logo reuses the supplied brand geometry. Heebo is licensed under SIL OFL and Phosphor icons under MIT; licence copies are in `assets/fonts/` and `assets/icons/`.
 
+
+## Family holiday planner
+
+Open `#trip-planner` from the navigation or hero. The bilingual planner collects family composition, child ages, dates, ski level, pace, destination and budget. It compares the three existing example scenarios, generates dated arrival/ski/rest/departure entries, and provides preparation and packing lists plus a downloadable text plan. Selected cost inputs can be transferred to the existing calculator.
+
+The workflow is inspired by the profile → budget → itinerary → preparation structure of [QuantumLynx travel-planner](https://github.com/QuantumLynx/claude-skills/blob/main/plugins/travel-planner/skills/travel-planner/SKILL.md). This is an original browser implementation, not an installed or hosted AI agent. It does not use that project's Python scripts or make live price, availability, weather or booking requests. No API key is required; profile values remain in page memory and reset on reload. Switching languages retains the current plan.
+
+Estimates reuse `SCENARIOS` from `budget.mjs`. All travellers currently use the same example rate; child discounts and multi-day pass pricing need actual quotes. The planner reserves arrival and departure days. At least two nights and at most `nights - 1` ski days are required. Budget edits in the separate calculator do not change the planner's original illustrative comparison.
+
+Validation: `npm test` covers budget consistency, date rollover, child ages, invalid inputs and exact ski/rest-day allocation across both paces for trips of 2–30 nights. `npm run build` verifies the static production bundle.
