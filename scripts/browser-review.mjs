@@ -61,16 +61,22 @@ try{
   await page.locator('.header [data-language]').click();assert.equal(await page.locator('#budget-people').inputValue(),'5');assert.equal(clean(await page.locator('#group-total').innerText()),'€4,835');
   await page.locator('.header [data-language]').click();
  });
- await check('Comparison invalid state, language switching and preset transfer',async()=>{
-  await page.locator('.comparison-details>summary').click();
-  await page.locator('#compare-people').fill('6');await page.locator('#compare-days').fill('99');
-  assert.equal(await page.locator('[data-scenario=bansko]').isDisabled(),true);
+ await check('Separate engines, country filters and après-ski preferences',async()=>{
+  assert.equal(await page.locator('#alpine-catalog [data-resort]').count(),9);
+  assert.equal(await page.locator('#value-catalog [data-resort]').count(),4);
+  assert.equal(await page.locator('#alpine-catalog [data-resort=bansko]').count(),0);
+  await page.locator('#alpine-country').selectOption('austria');
+  assert.equal(await page.locator('#alpine-catalog [data-resort]').count(),3);
+  await page.locator('#alpine-start').fill('2027-01-10');
+  await page.locator('#alpine-apres').selectOption('party');
+  await page.locator('#alpine-form button[type=submit]').click();
+  assert.equal(await page.locator('#alpine-results [data-resort]').count(),3);
+  assert.equal(await page.locator('#value-results [data-resort]').count(),0);
   await page.locator('.header [data-language]').click();
-  await page.locator('.comparison-details>summary').click();
-  assert.equal(await page.locator('#compare-people').inputValue(),'6');
-  await page.locator('#compare-days').fill('5');await page.locator('[data-scenario=bansko]').click();
-  assert.equal(clean(await page.locator('#group-total').innerText()),'€4,440');assert.equal(await page.locator('#budget-people').inputValue(),'6');
-  await shot(page,'calculator-preset');
+  assert.equal(await page.locator('#alpine-start').inputValue(),'2027-01-10');
+  assert.equal(await page.locator('#alpine-catalog').isVisible(),false);
+  await page.locator('[data-trip-budget=alpine]').click();
+  assert.equal(await page.locator('#budget-people').inputValue(),'2');
  });
  await check('Invalid budget and reset',async()=>{
   await page.locator('#budget-people').fill('');assert.equal(await page.locator('#save-budget').isDisabled(),true);assert.equal(clean(await page.locator('#group-total').innerText()),'—');
@@ -84,12 +90,15 @@ try{
    const content=clean(await fs.readFile(path.join(out,name),'utf8'));assert.ok(content.includes('€4,060'));assert.ok(content.includes(copy[lang].downloadTitle));
   });
  }
- await check('Destination search, filters, empty state and reset',async()=>{
-  await page.locator('.destination-tools>summary').click();await page.locator('[data-filter=italy]').click();assert.equal(await page.locator('.resort-card:visible').count(),1);
-  await page.locator('#resort-search').fill('no-such-resort');assert.equal(await page.locator('#empty-state').isVisible(),true);
-  await page.locator('#reset-search').click();assert.equal(await page.locator('.resort-card:visible').count(),3);
-  await page.locator('#resort-search').fill('mayrhofen');assert.equal(await page.locator('.resort-card:visible').count(),1);
-  await page.locator('#resort-search').fill('');
+ await check('Each planner downloads its own destination set',async()=>{
+  for(const engine of ['alpine','value']){
+   await page.locator(`#${engine}-start`).fill('2027-01-10');
+   await page.locator(`#${engine}-form button[type=submit]`).click();
+   const pending=page.waitForEvent('download');await page.locator(`[data-trip-download=${engine}]`).click();const download=await pending;
+   assert.ok(download.suggestedFilename().includes(engine));await download.saveAs(path.join(out,download.suggestedFilename()));
+   const content=clean(await fs.readFile(path.join(out,download.suggestedFilename()),'utf8'));
+   assert.ok(!content.includes('undefined'));
+  }
  });
  for(const lang of ['he','en']){
   if(await page.locator('html').getAttribute('lang')!==lang)await page.locator('.header [data-language]').click();
