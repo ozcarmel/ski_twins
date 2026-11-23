@@ -7,7 +7,9 @@
     "dev": "node scripts/dev.mjs",
     "build": "vite build",
     "test": "node --test tests/*.test.mjs",
-    "test:browser": "node scripts/browser-review.mjs"
+    "test:browser": "node scripts/browser-review.mjs",
+    "prebuild": "node scripts/generate-guides.mjs",
+    "generate:guides": "node scripts/generate-guides.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/heebo": "^5.3.0",

@@ -8,6 +8,8 @@ on:
       - '*.mjs'
       - '*.css'
       - 'assets/**'
+      - 'resorts/**'
+      - 'sitemap.xml'
       - 'package*.json'
       - 'scripts/**'
       - 'tests/**'
