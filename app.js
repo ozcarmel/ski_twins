@@ -1,4 +1,4 @@
-import {renderTripPlanner, bindTripPlanner} from './planner-ui.js';
+import {renderTripPlanner, bindTripPlanner, importTripPlan} from './planner-ui.js';
 import { copy } from './i18n.js';
 import { articlesEN } from './articles.js';
 import { articlesHE, sourceLabels } from './articles-he.js';
@@ -7,8 +7,9 @@ import { DEFAULT_BUDGET, SCENARIOS, calculateBudget } from './budget.mjs';
 const $ = (q,root=document)=>root.querySelector(q);
 const $$ = (q,root=document)=>[...root.querySelectorAll(q)];
 const esc = value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const isolate = value => '\u200f\u2067'+String(value).replace(/[A-Za-z0-9€©]+(?:[A-Za-z0-9€©.,+’&/−–—:\- ]*[A-Za-z0-9€©])?/g,s=>'\u2066'+s+'\u2069')+'\u2069';
+const isolate = value => '\u200f\u2067'+String(value).replace(/[A-Za-zÀ-ɏ0-9€©]+(?:[A-Za-zÀ-ɏ0-9€©.,+’&/−–—:\- ]*[A-Za-zÀ-ɏ0-9€©])?/g,s=>'\u2066'+s+'\u2069')+'\u2069';
 let lang='he';try{lang=localStorage.getItem('ski-twins-language')==='en'?'en':'he';}catch{}
+const urlLang=new URLSearchParams(location.search).get('lang');if(['he','en'].includes(urlLang))lang=urlLang;
 let budget={...DEFAULT_BUDGET},previousSection='#destinations',lastArticleKey='';
 const dictionary=()=>copy[lang];
 const txt=value=>esc(lang==='he'?isolate(value):value);
@@ -31,7 +32,7 @@ function render(){const c=dictionary();document.documentElement.lang=lang;docume
  <section id="about" class="section about" aria-labelledby="about-title"><div class="about-visual"><img src="assets/mountain-hut.jpg" alt="${esc(c.aboutPhoto)}" width="1100" height="733" loading="lazy"><p>${t('aboutCaption')}</p></div><div class="about-copy"><p class="eyebrow">${t('aboutEyebrow')}</p><h2 id="about-title">${t('aboutTitle')}</h2><p>${t('aboutP1')}</p><p>${t('aboutP2')}</p><p>${t('aboutP3')}</p><a class="text-link" href="#guide/review-policy">${t('reviewPolicy')}${arrow()}</a></div></section>
  <section id="georgia" class="georgia-note section"><h2>${t('georgia')}</h2><p>${t('georgiaNote')}</p><a class="text-link" href="#value-planner">${txt(lang==='he'?'למנוע החופשות החסכוניות':'Explore value holidays')}</a></section>
  <section class="faq section" aria-labelledby="faq-title"><h2 id="faq-title">${t('faqTitle')}</h2><div class="faq-list">${c.faqs.map(([q,a])=>`<details><summary>${txt(q)}${icon('plus')}</summary><p>${txt(a)}</p></details>`).join('')}</div></section><section class="social-band section"><div><h2>${t('socialTitle')}</h2><p>${t('socialDesc')}</p></div><div class="social-channels">${['Instagram','Facebook','TikTok'].map(n=>`<span><bdi>${n}</bdi><small>${t('soon')}</small></span>`).join('')}</div></section></main>
- <footer><a class="brand" href="#home">${brand()}</a><p>${t('madeBy')}</p><div class="footer-links"><a href="#guide/review-policy">${t('reviewPolicy')}</a><a href="#guide/privacy">${t('privacy')}</a><span><bdi>© ${new Date().getFullYear()} Ski Twins</bdi></span></div></footer>
+ <footer><a class="brand" href="#home">${brand()}</a><p>${t('madeBy')}</p><div class="footer-links"><a href="resorts/${lang==='en'?'en.html':''}">${txt(lang==='he'?'מדריכי היעדים והמקורות':'Destination guides & sources')}</a><a href="#guide/review-policy">${t('reviewPolicy')}</a><a href="#guide/privacy">${t('privacy')}</a><span><bdi>© ${new Date().getFullYear()} Ski Twins</bdi></span></div></footer>
  <dialog id="article-dialog" aria-labelledby="article-title"><div class="dialog-top"><a class="dialog-brand" href="#home"><bdi>Ski Twins</bdi><small>${t('fieldNotes')}</small></a>${languageButton('dialog-language')}<button class="close-dialog" aria-label="${esc(c.close)}">${icon('x')}</button></div><article id="article-content"></article></dialog><div class="toast" id="toast" role="status"></div>`;
  updateBudget();route();}
 function updateBudget(){const result=calculateBudget(budget);const c=dictionary();$('#budget-error').hidden=!result.error;$('#budget-error').textContent=result.error?(result.error==='days'?c.daysError:c.invalid):'';$('#save-budget').disabled=!!result.error;$('#group-total').innerHTML=result.error?'—':amount(result.group);$('#per-person').innerHTML=result.error?t('incomplete'):amount(result.person);$('#budget-breakdown').innerHTML=result.error?'':Object.entries(result.lines).map(([key,value])=>`<div><dt>${txt(c.fields[key])}</dt><dd>${amount(value)}</dd></div>`).join('');return result;}
@@ -46,7 +47,7 @@ function route(){const match=location.hash.match(/^#(?:guide|destination)\/([a-z
 function closeArticle(){const key=lastArticleKey;$('#article-dialog').close();document.body.classList.remove('modal-open');history.replaceState(null,'',location.pathname+location.search+previousSection);route();const trigger=$(`a[href="#destination/${key}"]`)||$(`a[href="#guide/${key}"]`);trigger?.focus({preventScroll:true});}
 let toastTimer;function toast(text){$('#toast').textContent=lang==='he'?isolate(text):text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast')?.classList.remove('visible'),4000);}
 function downloadBudget(){const r=updateBudget();if(r.error)return;const c=dictionary();const lines=[c.downloadTitle,'',...['people','nights','days'].map(k=>`${c[k]}: ${r.v[k]}`),'',c.breakdown,...Object.entries(r.lines).map(([k,v])=>`${c.fields[k]}: ${money(v)}`),'',`${c.familyTotal}: ${money(r.group)}`,`${c.person}: ${money(r.person)}`,'',...Object.keys(SCENARIOS.bansko).map(k=>`${c.fields[k]} — ${c.units[k]}: ${money(r.v[k])}`),'',c.downloadNote,'','https://ozcarmel.github.io/ski_twins/'];const text=lines.map(line=>lang==='he'&&line?isolate(line):line).join('\n');const url=URL.createObjectURL(new Blob(['\uFEFF',text],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download=`ski-twins-trip-plan-${lang}.txt`;link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(c.downloaded);}
-$('#site').addEventListener('click',event=>{const language=event.target.closest('[data-language]');if(language){const y=window.scrollY;lang=lang==='he'?'en':'he';try{localStorage.setItem('ski-twins-language',lang);}catch{}render();window.scrollTo({top:y,behavior:'instant'});const toggle=$('#article-dialog').open?$('.dialog-language'):$('.header [data-language]');toggle.focus({preventScroll:true});return;}
+$('#site').addEventListener('click',event=>{const language=event.target.closest('[data-language]');if(language){const y=window.scrollY;lang=lang==='he'?'en':'he';const nextURL=new URL(location.href);nextURL.searchParams.set('lang',lang);history.replaceState(null,'',nextURL);try{localStorage.setItem('ski-twins-language',lang);}catch{}render();window.scrollTo({top:y,behavior:'instant'});const toggle=$('#article-dialog').open?$('.dialog-language'):$('.header [data-language]');toggle.focus({preventScroll:true});return;}
  const menu=event.target.closest('.menu-toggle');if(menu){const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?dictionary().closeMenu:dictionary().menu);menu.innerHTML=icon(open?'x':'list');$('#navigation').classList.toggle('open',open);return;}
  if(event.target.closest('#save-budget')){downloadBudget();return;}
  if(event.target.closest('.close-dialog')){closeArticle();return;}
@@ -58,6 +59,9 @@ $('#site').addEventListener('reset',e=>{if(e.target.id==='budget-form'){e.preven
 $('#site').addEventListener('cancel',e=>{if(e.target.id==='article-dialog'){e.preventDefault();closeArticle();}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#navigation')?.classList.contains('open')){$('.menu-toggle').click();$('.menu-toggle').focus();}});
 bindTripPlanner($('#site'), values=>{budget={...values};for(const [key,value] of Object.entries(budget))$(`#budget-form [name="${key}"]`).value=value;updateBudget();location.hash='planner';$('#planner').scrollIntoView({behavior:'smooth'});toast(dictionary().loaded);});
-window.addEventListener('hashchange',route);
+window.addEventListener('hashchange',()=>{
+ if(/^#(?:alpine|value)-planner\?/.test(location.hash)&&importTripPlan(location.href)){render();document.getElementById(location.hash.slice(1).split('?')[0])?.scrollIntoView();}
+ else route();
+});
 render();
-if(location.hash&&!location.hash.includes('/'))requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView());
+if(location.hash&&!location.hash.includes('/'))requestAnimationFrame(()=>document.getElementById(location.hash.slice(1).split('?')[0])?.scrollIntoView());

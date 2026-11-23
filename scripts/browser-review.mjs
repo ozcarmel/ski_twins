@@ -5,6 +5,8 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {articlesEN} from '../articles.js';
 import {copy} from '../i18n.js';
+import {planURL} from '../trip-links.mjs';
+import {PROFILE} from '../planner.mjs';
 
 const root=path.resolve('.'), out=path.join(root,'browser-review');
 await fs.mkdir(out,{recursive:true});
@@ -12,7 +14,7 @@ const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript'
 const server=http.createServer(async(req,res)=>{
  try{
   const pathname=decodeURIComponent(new URL(req.url,'http://local').pathname);
-  const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));
+  const file=path.resolve(root,'.'+(pathname.endsWith('/')?pathname+'index.html':pathname));
   if(!file.startsWith(root+path.sep))throw Error('Invalid path');
   res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream'});
   res.end(await fs.readFile(file));
@@ -116,6 +118,21 @@ try{
   const images=await page.locator('img').evaluateAll(imgs=>[...new Set(imgs.map(i=>i.getAttribute('src')))]);
   for(const src of images){const response=await page.request.get(url+src);assert.equal(response.status(),200,src);}
  });
+ await check('Shared plan restores its engine, ability and dates',async()=>{
+  const shared=planURL(url,'alpine',{...PROFILE,country:'austria',level:'beginner',start:'2027-01-10'},'en');
+  await page.goto(shared);
+  assert.equal(await page.locator('html').getAttribute('lang'),'en');
+  assert.equal(await page.locator('#alpine-country').inputValue(),'austria');
+  assert.equal(await page.locator('#alpine-level').inputValue(),'beginner');
+  assert.equal(await page.locator('#alpine-start').inputValue(),'2027-01-10');
+  assert.equal(await page.locator('#alpine-results [data-resort]').first().getAttribute('data-resort'),'saalbach');
+  assert.equal(await page.locator('#value-results [data-resort]').count(),0);
+  const another=planURL(url,'alpine',{...PROFILE,country:'france',level:'beginner',start:'2027-02-07'},'en');
+  await page.goto(another);
+  await page.waitForFunction(()=>document.querySelector('#alpine-start').value==='2027-02-07');
+  assert.equal(await page.locator('#alpine-country').inputValue(),'france');
+  assert.equal(await page.locator('#alpine-results [data-resort]').first().getAttribute('data-resort'),'la-plagne');
+ });
  await page.close();
  const mobile=await pageFor(390,844);
  await check('Mobile navigation opens, closes, and follows links',async()=>{
@@ -128,6 +145,21 @@ try{
   const box=await mobile.locator('#article-dialog').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390);
   await shot(mobile,'guide-mobile');await mobile.keyboard.press('Escape');
   await mobile.goto(url+'#planner');await shot(mobile,'calculator-mobile');await overflow(mobile);
+ });
+ await check('Mobile destination guide, language switch and planner prefill',async()=>{
+  await mobile.goto(url+'resorts/saalbach/');
+  assert.equal(await mobile.locator('html').getAttribute('lang'),'he');
+  assert.ok((await mobile.locator('h1').innerText()).includes('זאלבך'));
+  assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await shot(mobile,'saalbach-guide-he',true);
+  await mobile.locator('.guide-header a[lang=en]').click();
+  assert.equal(await mobile.locator('html').getAttribute('lang'),'en');
+  assert.ok((await mobile.locator('h1').innerText()).includes('Saalbach'));
+  assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await shot(mobile,'saalbach-guide-en',true);
+  await mobile.locator('a[href*="destination=saalbach"]').first().click();
+  assert.equal(await mobile.locator('#alpine-country').inputValue(),'austria');
+  assert.equal(await mobile.locator('#alpine-destination').inputValue(),'saalbach');
  });
  await mobile.close();
  await check('No browser runtime or resource errors',async()=>assert.deepEqual(report.consoleErrors,[]));

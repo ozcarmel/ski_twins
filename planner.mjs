@@ -18,7 +18,7 @@ export function buildPlan(input,engine='alpine'){
  if(p.destination!=='auto'&&!available.some(r=>r.key===p.destination))return {error:'destination'};
  p.people=p.adults+p.children;
  const eveningTotal=p.nightlife*p.adults*p.nights;
- const options=available.map(r=>{const estimate=calculateBudget({...DEFAULT_BUDGET,...r.rate,people:p.people,nights:p.nights,days:p.days,stay:r.rate.stay*p.rooms,extras:r.rate.extras+eveningTotal/p.people});return {key:r.key,resort:r,...estimate,eveningTotal,score:(r.apres===p.apres?4:0)+(r.groups.includes(p.group)?1:0)};});
+ const options=available.map(r=>{const estimate=calculateBudget({...DEFAULT_BUDGET,...r.rate,people:p.people,nights:p.nights,days:p.days,stay:r.rate.stay*p.rooms,extras:r.rate.extras+eveningTotal/p.people});return {key:r.key,resort:r,...estimate,eveningTotal,score:r.suitability[p.level]*10+(r.apres===p.apres?4:0)+(r.groups.includes(p.group)?1:0)};});
  options.sort(engine==='value'?(a,b)=>a.group-b.group||b.score-a.score:(a,b)=>b.score-a.score||all.findIndex(r=>r.key===a.key)-all.findIndex(r=>r.key===b.key));
  const selected=options.find(o=>o.key===p.destination)||options[0];
  const restCount=p.nights-1-p.days,interior=Array(p.nights-1).fill('ski');
