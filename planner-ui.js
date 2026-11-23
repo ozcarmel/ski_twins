@@ -296,7 +296,8 @@ const content={
   }
 };
 const states={alpine:{profile:{...PROFILE},plan:null},value:{profile:{...PROFILE,group:'family',adults:2,children:2,ages:'9, 13',pace:'relaxed',level:'beginner',apres:'quiet',nightlife:10,limit:4500},plan:null}};
-const imported=readPlanURL(location.href);if(imported)states[imported.engine]={profile:imported.profile,plan:imported.plan};
+export function importTripPlan(href){const imported=readPlanURL(href);if(!imported)return false;states[imported.engine]={profile:imported.profile,plan:imported.plan};return imported.engine;}
+importTripPlan(location.href);
 let language='he';
 const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const isolate=v=>'\u200f\u2067'+String(v).replace(/[A-Za-zÀ-ɏ0-9€]+(?:[A-Za-zÀ-ɏ0-9€.,/ :–-]*[A-Za-zÀ-ɏ0-9€])?/g,s=>'\u2066'+s+'\u2069')+'\u2069';

@@ -127,6 +127,11 @@ try{
   assert.equal(await page.locator('#alpine-start').inputValue(),'2027-01-10');
   assert.equal(await page.locator('#alpine-results [data-resort]').first().getAttribute('data-resort'),'saalbach');
   assert.equal(await page.locator('#value-results [data-resort]').count(),0);
+  const another=planURL(url,'alpine',{...PROFILE,country:'france',level:'beginner',start:'2027-02-07'},'en');
+  await page.goto(another);
+  await page.waitForFunction(()=>document.querySelector('#alpine-start').value==='2027-02-07');
+  assert.equal(await page.locator('#alpine-country').inputValue(),'france');
+  assert.equal(await page.locator('#alpine-results [data-resort]').first().getAttribute('data-resort'),'la-plagne');
  });
  await page.close();
  const mobile=await pageFor(390,844);

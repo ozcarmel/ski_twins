@@ -34,11 +34,11 @@ npm ci
 npm run dev
 ```
 
-`npm test` runs the eight budget regression checks. `npm run test:browser` runs the bilingual Chromium review after `npx playwright install chromium`. Pull requests run these checks in GitHub Actions and attach screenshots plus `results.json` as a review artifact. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
+`npm test` runs 17 checks covering budget calculations, planner isolation, sharing and generated guides. `npm run test:browser` runs the bilingual Chromium review after `npx playwright install chromium`. Pull requests run these checks in GitHub Actions and attach screenshots plus `results.json` as a review artifact. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
 
 ## Redesign review
 
-The selected direction is **2 — The Family Winter Edit**: warm cream, plum typography, coral actions, family photography and editorial destination cards. The redesign has passed Chromium browser and visual review and stays on a review branch pending publication approval. See `design-qa.md` for evidence and review screenshots.
+The selected direction is **2 — The Family Winter Edit**: warm cream, plum typography, coral actions, family photography and editorial destination cards. The redesign is published on the existing GitHub Pages site. See `design-qa.md` for evidence and review screenshots.
 
 Comparison amounts are explicitly illustrative scenarios, not current resort prices or booking offers. The default comparison uses four people, six nights and five ski days. Each scenario can be opened in the existing calculator. Georgia is marked as coming soon because the original site has no Georgia guide.
 
@@ -63,7 +63,7 @@ The new family hero is AI-generated editorial imagery and is not presented as a 
 
 Both support couples, friends, families and solo travellers, with independent profiles and results. Country filters restrict destinations, comparisons and downloads. La Plagne and Les Arcs are explicitly identified as two bases linked within Paradiski. Resort sources and qualitative evening descriptions are in `resorts.mjs`; checked on 23 November 2026. Match labels are editorial assessments, not customer ratings.
 
-The workflow adapts profile → budget → itinerary → preparation ideas from [QuantumLynx travel-planner](https://github.com/QuantumLynx/claude-skills/blob/main/plugins/travel-planner/skills/travel-planner/SKILL.md). This is an original browser implementation, not a hosted AI agent. No live supplier, snow or availability requests occur. Values stay in page memory and survive language changes, not reloads.
+The workflow adapts profile → budget → itinerary → preparation ideas from [QuantumLynx travel-planner](https://github.com/QuantumLynx/claude-skills/blob/main/plugins/travel-planner/skills/travel-planner/SKILL.md). This is an original browser implementation, not a hosted AI agent. No live supplier, snow or availability requests occur. Ordinary values stay in page memory and survive language changes. Shared links restore the included planner inputs on opening or reloading.
 
 All rates in `resorts.mjs` are illustrative planning assumptions, **not researched current prices**. Accommodation is per room/unit/night multiplied by the entered unit count. Verify occupancy. All travellers use the same pass/rental rate; child discounts need actual quotes. Evening spending is entered per adult per night, is shown separately in the planner breakdown and included in extras on transfer to the existing calculator. Group budgets and per-person totals are both shown. Calculator edits do not change the planner's original comparison.
 

@@ -1,4 +1,4 @@
-import {renderTripPlanner, bindTripPlanner} from './planner-ui.js';
+import {renderTripPlanner, bindTripPlanner, importTripPlan} from './planner-ui.js';
 import { copy } from './i18n.js';
 import { articlesEN } from './articles.js';
 import { articlesHE, sourceLabels } from './articles-he.js';
@@ -59,6 +59,9 @@ $('#site').addEventListener('reset',e=>{if(e.target.id==='budget-form'){e.preven
 $('#site').addEventListener('cancel',e=>{if(e.target.id==='article-dialog'){e.preventDefault();closeArticle();}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#navigation')?.classList.contains('open')){$('.menu-toggle').click();$('.menu-toggle').focus();}});
 bindTripPlanner($('#site'), values=>{budget={...values};for(const [key,value] of Object.entries(budget))$(`#budget-form [name="${key}"]`).value=value;updateBudget();location.hash='planner';$('#planner').scrollIntoView({behavior:'smooth'});toast(dictionary().loaded);});
-window.addEventListener('hashchange',route);
+window.addEventListener('hashchange',()=>{
+ if(/^#(?:alpine|value)-planner\?/.test(location.hash)&&importTripPlan(location.href)){render();document.getElementById(location.hash.slice(1).split('?')[0])?.scrollIntoView();}
+ else route();
+});
 render();
 if(location.hash&&!location.hash.includes('/'))requestAnimationFrame(()=>document.getElementById(location.hash.slice(1).split('?')[0])?.scrollIntoView());
