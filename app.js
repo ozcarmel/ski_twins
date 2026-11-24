@@ -1,4 +1,4 @@
-import {renderTripPlanner, bindTripPlanner, importTripPlan} from './planner-ui.js';
+import {renderTripPlanner, bindTripPlanner, importTripPlan} from './planner-ui.js?v=20261124-area-size';
 import { copy } from './i18n.js';
 import { articlesEN } from './articles.js';
 import { articlesHE, sourceLabels } from './articles-he.js';

@@ -1,5 +1,5 @@
 import {DEFAULT_BUDGET,calculateBudget} from './budget.mjs';
-import {catalog} from './resorts.mjs';
+import {catalog} from './resorts.mjs?v=20261124-area-size';
 export const PROFILE=Object.freeze({adults:2,children:0,ages:'',start:'',nights:6,days:5,rooms:1,level:'intermediate',pace:'active',destination:'auto',country:'all',group:'couple',apres:'social',nightlife:30,limit:4000});
 export function buildPlan(input,engine='alpine'){
  if(!['alpine','value'].includes(engine))return {error:'invalid'};

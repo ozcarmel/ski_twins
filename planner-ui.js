@@ -1,6 +1,6 @@
-import {PROFILE,buildPlan} from './planner.mjs';
-import {catalog,countries,resortName,metricLabels,fitLabels} from './resorts.mjs';
-import {planURL,readPlanURL} from './trip-links.mjs';
+import {PROFILE,buildPlan} from './planner.mjs?v=20261124-area-size';
+import {catalog,countries,resortName,metricLabels,fitLabels} from './resorts.mjs?v=20261124-area-size';
+import {planURL,readPlanURL} from './trip-links.mjs?v=20261124-area-size';
 const content={
   "he": {
     "tag": "החופשה מתחילה כאן",
