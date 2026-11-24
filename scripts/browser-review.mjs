@@ -7,6 +7,7 @@ import {articlesEN} from '../articles.js';
 import {copy} from '../i18n.js';
 import {planURL} from '../trip-links.mjs';
 import {PROFILE} from '../planner.mjs';
+import {catalog} from '../resorts.mjs';
 
 const root=path.resolve('.'), out=path.join(root,'browser-review');
 await fs.mkdir(out,{recursive:true});
@@ -65,7 +66,7 @@ try{
  });
  await check('Separate engines, country filters and après-ski preferences',async()=>{
   assert.equal(await page.locator('#alpine-catalog [data-resort]').count(),9);
-  assert.equal(await page.locator('#value-catalog [data-resort]').count(),4);
+  assert.equal(await page.locator('#value-catalog [data-resort]').count(),catalog('value').length);
   assert.equal(await page.locator('#alpine-catalog [data-resort=bansko]').count(),0);
   await page.locator('#alpine-country').selectOption('austria');
   assert.equal(await page.locator('#alpine-catalog [data-resort]').count(),3);

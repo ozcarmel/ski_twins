@@ -34,7 +34,7 @@ npm ci
 npm run dev
 ```
 
-`npm test` runs 17 checks covering budget calculations, planner isolation, sharing and generated guides. `npm run test:browser` runs the bilingual Chromium review after `npx playwright install chromium`. Pull requests run these checks in GitHub Actions and attach screenshots plus `results.json` as a review artifact. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
+`npm test` runs checks covering budget calculations, planner isolation, sharing and generated guides. `npm run test:browser` runs the bilingual Chromium review after `npx playwright install chromium`. Pull requests run these checks in GitHub Actions and attach screenshots plus `results.json` as a review artifact. `npm run build` creates an optional static `dist/` bundle with all dynamically referenced assets. GitHub Pages can continue serving the repository root without a build change.
 
 ## Redesign review
 
@@ -59,9 +59,11 @@ The new family hero is AI-generated editorial imagery and is not presented as a 
 
 ## Two independent holiday engines
 
-`#alpine-planner` compares three selected resorts in each of Italy, Austria and France (nine total). France uses the published 2025/26 skier-day top three; Austria uses municipal winter overnight stays; Italy remains an editorial shortlist, not a verified national top three. Popularity evidence never substitutes for suitability. Results prioritise ski ability, then après-ski style, then group type. `#value-planner` separately compares Bansko, Poiana Brașov, Gudauri and the smaller Alpine alternative Pila, ordered by illustrative total cost. No cross-engine ranking occurs.
+`#alpine-planner` only includes published ski-area sizes strictly greater than 200 km. It retains three holiday bases each in Italy, Austria and France: Val Gardena/Sellaronda, Cervinia/Zermatt and Sestriere/Vialattea; Ischgl, Saalbach and St. Anton; Val Thorens, La Plagne and Les Arcs. This is an editorial selection, not a verified national top-three popularity ranking. La Plagne and Les Arcs share Paradiski and are labelled as two bases in one area.
 
-Both support couples, friends, families and solo travellers, with independent profiles and results. Country filters restrict destinations, comparisons and downloads. La Plagne and Les Arcs are explicitly identified as two bases linked within Paradiski. Resort sources and qualitative evening descriptions are in `resorts.mjs`; checked on 23 November 2026. Match labels are editorial assessments, not customer ratings.
+`#value-planner` includes areas up to and including 200 km regardless of country, ordered by illustrative total cost. France, Austria, Italy and Switzerland are represented as well as Bulgaria, Romania and Georgia. Smaller does not necessarily mean cheaper: Livigno, Campiglio and Sölden now belong to this track by size. Les Contamines, Brandnertal and Grimentz–Zinal add alternatives. Both tracks serve all group types and retain independent profiles.
+
+`resorts.mjs` owns numeric `pisteKm`, bilingual area names, size-source URLs and review dates. `engineForKm` derives classification; unknown/nonpositive sizes are not eligible. Use the accessible area covered by the proposed pass, never the sum of disconnected resorts on a regional pass. Published provider totals can use different measurement conventions and are not live open-piste counts. Livigno explicitly notes its ski-bus connection. Each card and guide shows the measured scope and source. Size sources reviewed 24 November 2026; previous demand evidence remains separately dated.
 
 The workflow adapts profile → budget → itinerary → preparation ideas from [QuantumLynx travel-planner](https://github.com/QuantumLynx/claude-skills/blob/main/plugins/travel-planner/skills/travel-planner/SKILL.md). This is an original browser implementation, not a hosted AI agent. No live supplier, snow or availability requests occur. Ordinary values stay in page memory and survive language changes. Shared links restore the included planner inputs on opening or reloading.
 
@@ -71,9 +73,7 @@ The planner reserves arrival and departure days, with exact ski/rest-day counts.
 
 ## Destination discovery and sharing
 
-Approved catalogue: Italy — Livigno, Val Gardena, Madonna di Campiglio; Austria — Sölden, Saalbach-Hinterglemm, Ischgl; France — La Plagne, Les Arcs–Peisey-Vallandry, Val Thorens (the published metric includes Orelle). The first-entry figure for Campiglio covers that operator only, not the whole connected area. French rankings refer to the published reporting units. Austrian figures describe municipal nights, including non-skiers. Do not combine these metrics into a global popularity score.
-
-`resorts/` contains nine bilingual destination guides and two directory pages, generated from `resorts.mjs` by `npm run generate:guides` (also run before build). They work without JavaScript, have self-canonical URLs and reciprocal language alternatives, and are included in `sitemap.xml`. Source review date and metric season are separate. The Italy selection is explicitly editorial. Suitability labels and scores are editorial, not customer ratings or audited statistics.
+`resorts/` contains bilingual guides for both tracks, preserving previous guide URLs. Run `npm run generate:guides` (also run before build) after data changes. Each guide links to its current planner track, includes area size and source, and has reciprocal language links and a canonical URL in `sitemap.xml`. Popularity metrics, where available, are context rather than selection criteria and must not be combined into a global score. Suitability is an editorial assessment.
 
 Plan sharing uses native sharing where supported, clipboard copy otherwise, and a selectable-link fallback. Profile values are stored in the URL fragment (not the HTTP query); shared links include group composition, child ages, dates and budget. No profile persistence or third-party analytics was added. A copied plan is a snapshot of planner inputs, not subsequent standalone-calculator edits. All imported profiles are validated. Plain guide links prefill a destination without inventing dates.
 

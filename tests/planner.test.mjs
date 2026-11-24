@@ -1,14 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PROFILE,buildPlan} from '../planner.mjs';
-import {catalog} from '../resorts.mjs';
+import {catalog,RESORTS,engineForKm} from '../resorts.mjs';
 const input={...PROFILE,start:'2027-01-10'};
 test('large engine has three resorts per country and never includes value destinations',()=>{
  assert.equal(catalog('alpine').length,9);
  for(const country of ['italy','austria','france']){const p=buildPlan({...input,country});assert.equal(p.options.length,3);assert.ok(p.options.every(o=>o.resort.country===country&&o.resort.engine==='alpine'));}
  assert.ok(buildPlan(input,'value').options.every(o=>o.resort.engine==='value'));
  for(const [engine,destination] of [['alpine','bansko'],['value','ischgl']])assert.equal(buildPlan({...input,destination},engine).error,'destination');
- assert.equal(buildPlan({...input,country:'austria'},'value').error,'invalid');
+ for(const country of ['italy','austria','france','switzerland']){const p=buildPlan({...input,country},'value');assert.ok(p.options.length>0);assert.ok(p.options.every(o=>o.resort.country===country&&o.resort.pisteKm<=200));}
  assert.equal(buildPlan({...input,country:'italy',destination:'ischgl'}).error,'destination');
 });
 test('experience preferences reorder alpine destinations; value engine remains cost first',()=>{
@@ -18,8 +18,8 @@ test('experience preferences reorder alpine destinations; value engine remains c
 });
 test('adult evening costs and accommodation units are charged exactly once',()=>{
  const profile={...input,group:'family',adults:2,children:2,ages:'9,13',destination:'livigno',nightlife:30};
- const p=buildPlan(profile),zero=buildPlan({...profile,nightlife:0});assert.equal(p.selected.group-zero.selected.group,360);assert.equal(p.selected.eveningTotal,360);
- const rooms=buildPlan({...profile,rooms:2});assert.equal(rooms.selected.group-p.selected.group,170*6);
+ const p=buildPlan(profile,'value'),zero=buildPlan({...profile,nightlife:0},'value');assert.equal(p.selected.group-zero.selected.group,360);assert.equal(p.selected.eveningTotal,360);
+ const rooms=buildPlan({...profile,rooms:2},'value');assert.equal(rooms.selected.group-p.selected.group,170*6);
  assert.ok(Math.abs(Object.values(p.selected.lines).reduce((a,b)=>a+b,0)-p.selected.group)<0.00001);
  assert.equal(p.selected.v.extras,160+360/4);
 });
@@ -33,4 +33,12 @@ test('invalid profile inputs never produce a plan',()=>{
  for(const change of [{ages:'9'},{children:1,ages:'18'},{start:'2027-02-30'},{start:''},{days:6},{nights:1},{adults:0},{adults:1.5},{rooms:0},{nightlife:-1},{nightlife:''},{limit:''},{group:'solo'},{group:'couple',adults:3},{destination:'<script>'}])assert.ok(buildPlan({...input,...change}).error,JSON.stringify(change));
  assert.equal(buildPlan({...input,group:'solo',adults:1}).error,undefined);
  assert.equal(buildPlan({...input,group:'family',children:1,ages:'2'}).youngChild,true);
+});
+
+test('area-size boundary is strict, country-independent and rejects unknown sizes',()=>{
+ for(const [km,expected] of [[0,null],[-1,null],[NaN,null],[undefined,null],[Infinity,null],['200',null],[100,'value'],[200,'value'],[200.01,'alpine']])assert.equal(engineForKm(km),expected);
+ for(const r of RESORTS){assert.equal(r.engine,engineForKm(r.pisteKm));assert.ok(r.area.en&&r.area.he&&r.areaSource.startsWith('https://'));}
+ assert.ok(catalog('alpine').every(r=>r.pisteKm>200));assert.ok(catalog('value').every(r=>r.pisteKm<=200));
+ for(const destination of ['livigno','campiglio','soelden']){assert.equal(buildPlan({...input,destination},'alpine').error,'destination');assert.equal(buildPlan({...input,destination},'value').selected.key,destination);}
+ assert.equal(catalog('alpine').length+catalog('value').length,RESORTS.length);
 });

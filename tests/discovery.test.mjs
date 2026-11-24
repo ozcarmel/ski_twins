@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {PROFILE,buildPlan} from '../planner.mjs';
 import {planURL,readPlanURL} from '../trip-links.mjs';
-import {catalog} from '../resorts.mjs';
+import {catalog,RESORTS} from '../resorts.mjs';
 const input={...PROFILE,start:'2027-01-10',country:'austria',level:'beginner',apres:'party'};
 test('beginner terrain fit affects alpine order without crossing engines',()=>{
  const plan=buildPlan(input);assert.equal(plan.selected.key,'saalbach');
@@ -26,14 +26,14 @@ test('guide prefills and malformed links keep profiles validated and engines iso
 });
 test('all static destinations have reciprocal languages, canonical URLs, sources and valid local links',()=>{
  const base='https://ozcarmel.github.io/ski_twins/';
- for(const r of catalog('alpine'))for(const lang of ['he','en']){
+ for(const r of RESORTS)for(const lang of ['he','en']){
   const path=`resorts/${r.key}/${lang==='en'?'en.html':'index.html'}`,html=readFileSync(path,'utf8'),canonical=base+`resorts/${r.key}/${lang==='en'?'en.html':''}`;
   assert.ok(html.includes(`rel="canonical" href="${canonical}"`));assert.ok(html.includes(`hreflang="he" href="${base}resorts/${r.key}/"`));assert.ok(html.includes(`hreflang="en" href="${base}resorts/${r.key}/en.html"`));
-  assert.ok(html.includes(r.popularity.url.replaceAll('&','&amp;')));assert.ok(!html.includes('undefined'));
+  if(r.popularity)assert.ok(html.includes(r.popularity.url.replaceAll('&','&amp;')));assert.ok(html.includes(r.areaSource.replaceAll('&','&amp;')));assert.ok(html.includes(`engine=${r.engine}&amp;country=${r.country}&amp;destination=${r.key}#${r.engine}-planner`));assert.ok(!html.includes('undefined'));
   for(const match of html.matchAll(/(?:href|src)="([^\"]+)"/g)){
    const url=new URL(match[1].replaceAll('&amp;','&'),base+path);if(!url.href.startsWith(base))continue;
    let local=decodeURIComponent(url.pathname.slice('/ski_twins/'.length));if(!local||local.endsWith('/'))local+='index.html';assert.ok(existsSync(local),`${path}: ${local}`);
   }
  }
- const sitemap=readFileSync('sitemap.xml','utf8');assert.equal((sitemap.match(/<loc>/g)||[]).length,21);
+ const sitemap=readFileSync('sitemap.xml','utf8');assert.equal((sitemap.match(/<loc>/g)||[]).length,3+RESORTS.length*2);
 });

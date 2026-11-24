@@ -6,3 +6,5 @@
 @media(max-width:600px){.track-choices,.trip-options{grid-template-columns:1fr}.track-choice{padding:24px}.track-choice h3{font-size:26px}.apres-editorial{padding:24px}.trip-paths{padding-block:32px}.hero-intro{font-size:18px}.trip-option h4{font-size:23px}.trip-fields{grid-template-columns:1fr}.trip-submit .button{font-size:16px}}
 
 .resort-evidence{margin:0 0 18px;font-size:14px;line-height:1.7;border-block:1px solid var(--line);padding-block:12px}.resort-evidence summary{cursor:pointer;font-weight:650;min-height:32px}.resort-evidence p{margin:10px 0}.level-fit{padding:12px;background:#e9eef1;border-radius:4px;font-size:14px!important}.plan-sharing{padding:24px;background:#e9eef1;border-radius:10px;margin-block:24px}.plan-sharing h4{margin-top:0}.share-fallback input{display:block;width:100%;padding:12px;font:inherit;min-width:0}.share-fallback[hidden]{display:none}.trip-option p,.trip-option dd{overflow-wrap:anywhere}
+
+.area-size{font-weight:650;font-size:16px!important;line-height:1.6}.area-source{font-size:14px;min-height:44px;display:flex;align-items:center;margin-bottom:12px;overflow-wrap:anywhere}
